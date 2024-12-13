@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="home.css">
+    <title>Personal Health App</title>
+</head>
+<body>
+    <!-- Background Video -->
+    <video autoplay loop muted playsinline class="background-video">
+        <source src="bg.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="background-overlay"></div>
+
+    <header>
+        <h1>Welcome to Your Personal Health Tracker</h1>
+    </header>
+    <nav>
+        <a href="index.html" data-sound="mp3.wav">Logout</a>
+        <a href="home.html" data-sound="mp3.wav">Home</a>
+        <a href="weight.html" data-sound="mp3.wav">Weight Tracker</a>
+        <a href="exercise.html" data-sound="mp3.wav">Exercise Planner</a>
+        <a href="meals.html" data-sound="mp3.wav">Meal Planner</a>
+    </nav>
+    <main>
+        <p>Track your progress, stay fit, and plan your meals with ease. Select a section to get started!</p>
+    </main>
+    <section class="content">
+        <p>
+          Regular health check-ups are crucial for maintaining a healthy lifestyle. They help in early detection of potential health issues, providing an opportunity for timely intervention and prevention. Monitoring your health regularly ensures a better quality of life and well-being.
+        </p>
+        <button class="yellow-button" onclick="redirectToTestPage()">Take Your Body Check-up Test Now!!</button>
+    </section>
+    <footer>
+        <p>&copy; 2024 Personal Health App</p>
+    </footer>
+    
+    <audio id="hoverSound" preload="auto">
+        <source src="mp3.wav" type="audio/wav">
+        Your browser does not support the audio tag.
+    </audio>
+    
+    <script>
+        // Play hover sound immediately upon hover
+        document.addEventListener('DOMContentLoaded', () => {
+            const sound = document.getElementById('hoverSound');
+            sound.load(); // Ensure the audio is preloaded
+            
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('mouseenter', () => {
+                    sound.currentTime = 0; // Reset sound to the beginning
+                    sound.play().catch(err => {
+                        console.error("Audio play error:", err);
+                    });
+                });
+            });
+        });
+
+        // Redirect to test page
+        function redirectToTestPage() {
+            window.location.href = 'testpage.html'; // Replace with the actual URL of your test page
+        }
+    </script>
+</body>
+</html>

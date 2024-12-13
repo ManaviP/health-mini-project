@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Exercise Planner</title>
+</head>
+<body>
+    <header>
+        <h1>Exercise Planner</h1>
+    </header>
+    <nav>
+        <a href="index.html" data-sound="mp3.wav">Logout</a>
+        <a href="home.html" data-sound="mp3.wav">Home</a>
+        <a href="weight.html" data-sound="mp3.wav">Weight Tracker</a>
+        <a href="meals.html" data-sound="mp3.wav">Meal Planner</a>
+    </nav>
+    <main>
+        <form id="exercise-form">
+            <label for="exercise">Exercise:</label>
+            <input type="text" id="exercise" name="exercise" placeholder="E.g., Jogging, Yoga" required>
+
+            <label for="duration">Duration (minutes):</label>
+            <input type="number" id="duration" name="duration" required>
+
+            <button type="submit">Add Exercise</button>
+        </form>
+        <section>
+            <h2>Planned Exercises</h2>
+            <ul id="exercise-list">
+                <!-- Exercise items will be dynamically added here -->
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Personal Health App</p>
+    </footer>
+    <audio id="hoverSound" preload="auto">
+        <source src="mp3.wav" type="audio/wav">
+        Your browser does not support the audio tag.
+    </audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sound = document.getElementById('hoverSound');
+            sound.load(); // Ensure the audio is preloaded
+            
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('mouseenter', () => {
+                    sound.currentTime = 0; // Reset sound to the beginning
+                    sound.play().catch(err => {
+                        console.error("Audio play error:", err);
+                    });
+                });
+            });
+        });
+        // Get references to the form and list
+        const exerciseForm = document.getElementById('exercise-form');
+        const exerciseList = document.getElementById('exercise-list');
+
+        // Function to save exercises to local storage
+        function saveExercises(exercises) {
+            localStorage.setItem('exercises', JSON.stringify(exercises));
+        }
+
+        // Function to load exercises from local storage
+        function loadExercises() {
+            const storedExercises = localStorage.getItem('exercises');
+            return storedExercises ? JSON.parse(storedExercises) : [];
+        }
+
+        // Function to render exercises on the page
+        function renderExercises() {
+            const exercises = loadExercises();
+            exerciseList.innerHTML = ''; // Clear the list
+            exercises.forEach((exercise, index) => {
+                const li = document.createElement('li');
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = exercise.completed; // Check if completed
+                checkbox.addEventListener('change', () => toggleCompletion(index));
+
+                li.textContent = `${exercise.name}: ${exercise.duration} minutes`;
+
+                // Append the checkbox to the list item
+                li.prepend(checkbox);
+                exerciseList.appendChild(li);
+            });
+        }
+
+        // Toggle completion of an exercise
+        function toggleCompletion(index) {
+            const exercises = loadExercises();
+            exercises[index].completed = !exercises[index].completed; // Toggle the completion status
+            saveExercises(exercises);
+            renderExercises(); // Re-render the list after updating
+        }
+
+        // Event listener for form submission
+        exerciseForm.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent form submission
+
+            // Get input values
+            const exerciseInput = document.getElementById('exercise');
+            const durationInput = document.getElementById('duration');
+
+            const exerciseName = exerciseInput.value.trim();
+            const exerciseDuration = parseInt(durationInput.value);
+
+            if (exerciseName && exerciseDuration) {
+                // Load existing exercises, add new one, and save
+                const exercises = loadExercises();
+                exercises.push({ name: exerciseName, duration: exerciseDuration, completed: false });
+                saveExercises(exercises);
+
+                // Clear form inputs
+                exerciseInput.value = '';
+                durationInput.value = '';
+
+                // Re-render exercises
+                renderExercises();
+            }
+        });
+
+        // Initial render of exercises on page load
+        renderExercises();
+    </script>
+</body>
+</html>

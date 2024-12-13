@@ -1,0 +1,99 @@
+/* mainpage.css */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 2cm;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align content on the middle left of the screen */
+    height: 100vh;
+    overflow: hidden; /* Ensure the video doesn't overflow the body */
+    transition: background-color 1s ease;
+}
+  .main-page {
+    position: relative;
+    z-index: 1;
+  }
+  #bgVideo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+  
+  header {
+    background-color:lightskyblue;
+    color: #fff; /* White text color */
+    margin-top: 1cm;
+    margin-bottom: 1cm;
+    padding: 5px;
+    text-align: justify; /* Align header text to the left */
+    font-size: 22px; /* Increase font size of the header */
+    border-radius: 50px; /* Rounded borders */
+    position: relative;
+    z-index: 2;
+    margin-right: 20px; /* Move header towards the right */
+    margin-bottom: 15px; /* Lower the header a little */
+  }
+  
+  .content {
+    color: white;
+    font-weight: bolder;
+    font-size: 35px;
+    margin-top: 20px;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .yellow-button {
+    background-color: blueviolet;
+    color: #fff;
+    margin-top: 3cm;
+    padding: 15px;
+    font-size: 25px;
+    border: none;
+    border-radius: 20px; /* Rounded borders */
+    cursor: pointer;
+    transition: background-color 1s ease, color 1s ease;
+    margin-right: 5px; /* Move button towards the right */
+    margin-bottom: 5px; /* Lower the button a little */
+  }
+  
+  .yellow-button:hover {
+    background-color:black; /* Darker blue on hover */
+    color: #fff;
+  }
+  
+  #bgVideo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure the video covers the entire container */
+    z-index: -1;
+  }
+  /* Navigation */
+nav {
+  background: #333;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 1rem;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+
+nav a:hover {
+  background: #555;
+}

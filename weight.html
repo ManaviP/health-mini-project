@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Weight Tracker</title>
+</head>
+<body>
+    <header>
+        <h1>Weight Tracker</h1>
+    </header>
+    <nav>
+        <a href="index.html" data-sound="mp3.wav">Logout</a>
+        <a href="home.html" data-sound="mp3.wav">Home</a>
+        <a href="exercise.html" data-sound="mp3.wav">Exercise Planner</a>
+        <a href="meals.html" data-sound="mp3.wav">Meal Planner</a>
+    </nav>
+    <main>
+        <form id="weight-form">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="weight">Weight (kg):</label>
+            <input type="number" id="weight" name="weight" step="0.1" required>
+
+            <button type="submit">Add Entry</button>
+        </form>
+        <section>
+            <h2>Weight History</h2>
+            <ul id="weight-history"></ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Personal Health App</p>
+    </footer>
+    <audio id="hoverSound" preload="auto">
+        <source src="mp3.wav" type="audio/wav">
+        Your browser does not support the audio tag.
+    </audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sound = document.getElementById('hoverSound');
+            sound.load(); // Ensure the audio is preloaded
+            
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('mouseenter', () => {
+                    sound.currentTime = 0; // Reset sound to the beginning
+                    sound.play().catch(err => {
+                        console.error("Audio play error:", err);
+                    });
+                });
+            });
+        });
+        const form = document.getElementById("weight-form");
+        const weightHistory = document.getElementById("weight-history");
+
+        // Load weight history from localStorage
+        function loadWeightHistory() {
+            const history = JSON.parse(localStorage.getItem("weightHistory")) || [];
+            history.forEach(entry => {
+                const li = document.createElement("li");
+                li.textContent = `${entry.date}: ${entry.weight} kg`;
+                weightHistory.appendChild(li);
+            });
+        }
+
+        // Save weight entry to localStorage
+        function saveWeightEntry(weightData) {
+            const history = JSON.parse(localStorage.getItem("weightHistory")) || [];
+            history.push(weightData);
+            localStorage.setItem("weightHistory", JSON.stringify(history));
+        }
+
+        // Handle form submission
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const date = document.getElementById("date").value;
+            const weight = document.getElementById("weight").value;
+
+            if (date && weight) {
+                const weightData = { date, weight };
+                saveWeightEntry(weightData);
+
+                const li = document.createElement("li");
+                li.textContent = `${date}: ${weight} kg`;
+                weightHistory.appendChild(li);
+
+                form.reset();
+            }
+        });
+
+        // Initialize weight history on page load
+        loadWeightHistory();
+    </script>
+</body>
+</html>

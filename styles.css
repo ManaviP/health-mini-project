@@ -1,0 +1,83 @@
+  /* CSS (styles.css) */
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('https://cdn.dribbble.com/users/5920881/screenshots/14088635/media/da11146df7c3cb056c8d8aa60333b935.gif');
+    background-size: 20%;
+    transition: background-color 1s ease;
+  }
+
+  .container {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 128, 0, 0.5);
+    width: 500px;
+    text-align: center;
+    opacity: 0;
+    transition: background-color 1s ease, box-shadow 1s ease, opacity 1s ease;
+  }
+
+  .container.loaded {
+    opacity: 1; /* Fade in when loaded class is added */
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #333;
+    transition: border-color 1s ease, color 1s ease;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    background-color: #ffcc00;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 1s ease, color 1s ease;
+  }
+
+  button:hover {
+    background-color: #9bcd6b;
+    color: #fff;
+  }
+
+  .small-button {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .error {
+    color: red;
+  }
+
+  h2 {
+    color: #333;
+  }
+
+  p {
+    color: #555;
+  }
+
+  a {
+    color: #4caf50;
+    text-decoration: none;
+    transition: color 1s ease;
+  }
+
+  a:hover {
+    text-decoration: underline;
+    color: #45a049;
+  }

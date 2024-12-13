@@ -1,0 +1,59 @@
+<!-- diagnosticspage.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="testpage.css">
+  <title>Diagnostics Page</title>
+</head>
+<body>
+  
+  <div class="container">
+    <nav>
+      <a href="index.html">Logout</a>
+      <a href="home.html">Home</a>
+    </nav>
+    <h1>Diagnostics</h1>
+    <p>
+      Here are the diagnostics for your condition:
+      <!-- Include specific diagnostics based on the disease outcome -->
+      <span id="diagnosticsText">Custom Diagnostics</span>
+    </p>
+  </div>
+
+  <video autoplay muted loop id="bgVideo">
+    <source src="vid.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <script src="testpage.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Retrieve the disease outcome from localStorage
+      var diseaseOutcome = localStorage.getItem('diseaseOutcome');
+
+      // Display specific diagnostics based on the disease outcome
+      displayDiagnostics(diseaseOutcome);
+    });
+  
+    function displayDiagnostics(diseaseOutcome) {
+      // Placeholder logic - Replace this with your actual diagnostics
+      // This is just a simplified example
+
+      var diagnosticsText = document.getElementById('diagnosticsText');
+      var diagnosticsDatabase = {
+        'Migraine': 'You may experience severe headaches and sensitivity to light. Rest and hydration are recommended.',
+        'Respiratory Infection': 'You may have symptoms such as cough, shortness of breath, and fever. Consult a healthcare professional for further evaluation.',
+        // Add more diseases and their corresponding diagnostics
+      };
+
+      if (diagnosticsDatabase.hasOwnProperty(diseaseOutcome)) {
+        diagnosticsText.textContent = diagnosticsDatabase[diseaseOutcome];
+      } else {
+        diagnosticsText.textContent = 'Clinical assessment based on symptoms Rapid influenza diagnostic tests (RIDTs) - swab test of nasal secretions polymerase chain reaction (PCR) test for confirmation\ndecongestant, cough medicine, analgesic and anti-viral drug can be taken';
+      }
+    }
+  </script>
+</body>
+</html>

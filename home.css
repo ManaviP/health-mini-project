@@ -1,0 +1,194 @@
+/* General styles */
+/* Background Video */
+.background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+
+/* Background Overlay */
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+/* Ensure content overlays the video */
+body {
+    position: relative;
+    z-index: 1;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* Header with gradient */
+header {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Navigation with hover effects */
+nav {
+    background: #333;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 1rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.3s, transform 0.2s;
+}
+
+nav a:hover {
+    background: #555;
+    transform: scale(1.1);
+}
+
+nav a::before {
+    content: '➤';
+    font-size: 1.2rem;
+    color: #ffc107;
+}
+
+/* Main content */
+main {
+    padding: 1.5rem;
+    background: #ffffff;
+    margin: 1.5rem auto;
+    max-width: 800px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Content section */
+.content {
+    padding: 1.5rem;
+    background: #ffffff;
+    margin: 1.5rem auto;
+    max-width: 800px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.main p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+    line-height: 1.8;
+}
+.content p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+    line-height: 1.8;
+}
+
+/* Yellow Button with hover animation */
+.yellow-button {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    background-color: #ffc107;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.yellow-button:hover {
+    background-color: #e0a800;
+    transform: scale(1.05);
+}
+
+.yellow-button:active {
+    transform: scale(1);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1rem;
+    background: #333;
+    color: #fff;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+
+/* Form */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    margin: 0.5rem 0 0.2rem;
+}
+
+form input,
+form button {
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form button {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+form button:hover {
+    background: #0056b3;
+}
+
+/* Lists */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    background: #f9f9f9;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1rem;
+    background: #333;
+    color: #fff;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}

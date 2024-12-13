@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Meal Planner</title>
+</head>
+<body>
+    <header>
+        <h1>Meal Planner</h1>
+    </header>
+    <nav>
+        <a href="index.html" data-sound="mp3.wav">Logout</a>
+        <a href="home.html" data-sound="mp3.wav">Home</a>
+        <a href="weight.html" data-sound="mp3.wav">Weight Tracker</a>
+        <a href="exercise.html" data-sound="mp3.wav">Exercise Planner</a>
+    </nav>
+    <main>
+        <form id="meal-form">
+            <label for="meal">Meal:</label>
+            <input type="text" id="meal" name="meal" placeholder="E.g., Breakfast, Lunch" required>
+
+            <label for="items">Items:</label>
+            <input type="text" id="items" name="items" placeholder="E.g., Eggs, Toast, Salad" required>
+
+            <button type="submit">Add Meal</button>
+        </form>
+        <section>
+            <h2>Planned Meals</h2>
+            <ul id="meal-list"></ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Personal Health App</p>
+    </footer>
+    <audio id="hoverSound" preload="auto">
+        <source src="mp3.wav" type="audio/wav">
+        Your browser does not support the audio tag.
+    </audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sound = document.getElementById('hoverSound');
+            sound.load(); // Ensure the audio is preloaded
+            
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('mouseenter', () => {
+                    sound.currentTime = 0; // Reset sound to the beginning
+                    sound.play().catch(err => {
+                        console.error("Audio play error:", err);
+                    });
+                });
+            });
+        });
+        const form = document.getElementById("meal-form");
+        const mealList = document.getElementById("meal-list");
+
+        // Load meals from localStorage
+        function loadMeals() {
+            const meals = JSON.parse(localStorage.getItem("meals")) || [];
+            meals.forEach(meal => {
+                const li = document.createElement("li");
+                li.textContent = `${meal.meal}: ${meal.items}`;
+                mealList.appendChild(li);
+            });
+        }
+
+        // Save meals to localStorage
+        function saveMeal(mealData) {
+            const meals = JSON.parse(localStorage.getItem("meals")) || [];
+            meals.push(mealData);
+            localStorage.setItem("meals", JSON.stringify(meals));
+        }
+
+        // Handle form submission
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const meal = document.getElementById("meal").value;
+            const items = document.getElementById("items").value;
+
+            if (meal && items) {
+                const mealData = { meal, items };
+                saveMeal(mealData);
+
+                const li = document.createElement("li");
+                li.textContent = `${meal}: ${items}`;
+                mealList.appendChild(li);
+
+                form.reset();
+            }
+        });
+
+        // Initialize meal list on page load
+        loadMeals();
+    </script>
+</body>
+</html>
