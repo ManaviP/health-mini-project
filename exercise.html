@@ -45,7 +45,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const sound = document.getElementById('hoverSound');
             sound.load(); // Ensure the audio is preloaded
-            
+
             document.querySelectorAll('nav a').forEach(link => {
                 link.addEventListener('mouseenter', () => {
                     sound.currentTime = 0; // Reset sound to the beginning
@@ -54,54 +54,54 @@
                     });
                 });
             });
+
+            renderExercises(); // Fetch and display exercises on page load
         });
+
         // Get references to the form and list
         const exerciseForm = document.getElementById('exercise-form');
         const exerciseList = document.getElementById('exercise-list');
 
-        // Function to save exercises to local storage
-        function saveExercises(exercises) {
-            localStorage.setItem('exercises', JSON.stringify(exercises));
+        // Fetch exercises from the backend and render them
+        async function renderExercises() {
+            try {
+                const response = await fetch('/exercises'); // GET request to fetch exercises
+
+                if (response.ok) {
+                    const exercises = await response.json();
+                    exerciseList.innerHTML = ''; // Clear the list
+
+                    exercises.forEach((exercise) => {
+                        const li = document.createElement('li');
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.checked = exercise.completed; // Check if completed
+                        checkbox.addEventListener('change', () => toggleCompletion(exercise._id));
+
+                        li.textContent = `${exercise.name}: ${exercise.duration} minutes`;
+
+                        // Add a delete button
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Delete';
+                        deleteButton.addEventListener('click', () => deleteExercise(exercise._id));
+
+                        // Append checkbox and delete button to the list item
+                        li.prepend(checkbox);
+                        li.appendChild(deleteButton);
+                        exerciseList.appendChild(li);
+                    });
+                } else {
+                    console.error('Failed to fetch exercises.');
+                }
+            } catch (error) {
+                console.error('Error fetching exercises:', error);
+            }
         }
 
-        // Function to load exercises from local storage
-        function loadExercises() {
-            const storedExercises = localStorage.getItem('exercises');
-            return storedExercises ? JSON.parse(storedExercises) : [];
-        }
-
-        // Function to render exercises on the page
-        function renderExercises() {
-            const exercises = loadExercises();
-            exerciseList.innerHTML = ''; // Clear the list
-            exercises.forEach((exercise, index) => {
-                const li = document.createElement('li');
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.checked = exercise.completed; // Check if completed
-                checkbox.addEventListener('change', () => toggleCompletion(index));
-
-                li.textContent = `${exercise.name}: ${exercise.duration} minutes`;
-
-                // Append the checkbox to the list item
-                li.prepend(checkbox);
-                exerciseList.appendChild(li);
-            });
-        }
-
-        // Toggle completion of an exercise
-        function toggleCompletion(index) {
-            const exercises = loadExercises();
-            exercises[index].completed = !exercises[index].completed; // Toggle the completion status
-            saveExercises(exercises);
-            renderExercises(); // Re-render the list after updating
-        }
-
-        // Event listener for form submission
-        exerciseForm.addEventListener('submit', (event) => {
+        // Add a new exercise to the backend
+        exerciseForm.addEventListener('submit', async (event) => {
             event.preventDefault(); // Prevent form submission
 
-            // Get input values
             const exerciseInput = document.getElementById('exercise');
             const durationInput = document.getElementById('duration');
 
@@ -109,22 +109,70 @@
             const exerciseDuration = parseInt(durationInput.value);
 
             if (exerciseName && exerciseDuration) {
-                // Load existing exercises, add new one, and save
-                const exercises = loadExercises();
-                exercises.push({ name: exerciseName, duration: exerciseDuration, completed: false });
-                saveExercises(exercises);
+                try {
+                    const response = await fetch('/exercises', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            name: exerciseName,
+                            duration: exerciseDuration,
+                        }),
+                    });
 
-                // Clear form inputs
-                exerciseInput.value = '';
-                durationInput.value = '';
-
-                // Re-render exercises
-                renderExercises();
+                    if (response.ok) {
+                        exerciseInput.value = '';
+                        durationInput.value = '';
+                        renderExercises(); // Refresh the exercise list
+                    } else {
+                        console.error('Failed to add exercise.');
+                    }
+                } catch (error) {
+                    console.error('Error adding exercise:', error);
+                }
             }
         });
 
-        // Initial render of exercises on page load
-        renderExercises();
+        // Toggle exercise completion
+        async function toggleCompletion(exerciseId) {
+            try {
+                const response = await fetch(`/exercises/${exerciseId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        completed: true,
+                    }),
+                });
+
+                if (response.ok) {
+                    renderExercises(); // Refresh the exercise list
+                } else {
+                    console.error('Failed to toggle completion.');
+                }
+            } catch (error) {
+                console.error('Error toggling completion:', error);
+            }
+        }
+
+        // Delete an exercise
+        async function deleteExercise(exerciseId) {
+            try {
+                const response = await fetch(`/exercises/${exerciseId}`, {
+                    method: 'DELETE',
+                });
+
+                if (response.ok) {
+                    renderExercises(); // Refresh the exercise list
+                } else {
+                    console.error('Failed to delete exercise.');
+                }
+            } catch (error) {
+                console.error('Error deleting exercise:', error);
+            }
+        }
     </script>
 </body>
 </html>
